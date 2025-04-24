@@ -1,17 +1,19 @@
-from flask import Flask, request, jsonify
-from survey_logic import handle_incoming_sms
-import export
+from flask import Flask, request
+from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
 
-@app.route('/sms-webhook', methods=['POST'])
-def sms_webhook():
-    incoming = request.get_json()
-    phone = incoming.get('phone')
-    message = incoming.get('message')
+@app.route("/sms3", methods=["POST"])
+def sms_reply():
+    incoming_msg = request.form.get("Body")
+    from_number = request.form.get("From")
 
-    response = handle_incoming_sms(phone, message)
-    return jsonify({"status": "ok", "message": response})
+    print(f"Message from {from_number}: {incoming_msg}")
+
+    # Respond
+    resp = MessagingResponse()
+    resp.message("Thanks! We got your message.")
+    return str(resp)
 
 @app.route('/export', methods=['GET'])
 def home():
