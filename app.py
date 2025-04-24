@@ -14,6 +14,8 @@ def sms_webhook():
     return jsonify({"status": "ok", "message": response})
 
 @app.route('/export', methods=['GET'])
+def home():
+    return "Solar SMS Survey API is running!"
 def export_excel():
     filepath = export.export_to_excel()
     return jsonify({"status": "done", "file": filepath})
