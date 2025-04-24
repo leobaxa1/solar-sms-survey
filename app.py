@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
@@ -16,11 +16,14 @@ def sms_reply():
     return str(resp)
 
 @app.route('/export', methods=['GET'])
-def home():
-    return "Solar SMS Survey API is running!"
 def export_excel():
-    filepath = export.export_to_excel()
+    # Replace this with your actual export logic
+    filepath = "path/to/exported_file.xlsx"  # or call your export function
     return jsonify({"status": "done", "file": filepath})
 
+@app.route('/', methods=['GET'])
+def home():
+    return "Solar SMS Survey API is running!"
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Bind to 0.0.0.0 for Render
+    app.run(host='0.0.0.0', port=5000, debug=True)
